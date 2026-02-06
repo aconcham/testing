@@ -37,10 +37,21 @@ export class ProjectsManager {
             if (!(projectsPage && detailsPage)) { return }
             projectsPage.style.display = "none"
             detailsPage.style.display = "flex"
+            this.setDetailsPage(project)
         })
         this.ui.append(project.ui) // Append the project's UI to the manager's UI container
         this.list.push(project) // Add the new project to the list
         return project
+    }
+
+    // Private method to set up the project details page
+    private setDetailsPage(project: Project) {
+        const detailsPage = document.getElementById("project-details")
+        if (!detailsPage) { return }
+        
+        // Querying elements using custom data attributes (data-*).
+        const name = detailsPage.querySelector("[data-project-info='name']")
+        if (name) { name.textContent = project.name }
     }
 
     // Method to get a project by its ID

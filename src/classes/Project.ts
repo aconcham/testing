@@ -44,6 +44,7 @@ export class Project implements IProject { // By convention, classes always star
         this.setUI() // Calls the setUI method to create the UI representation of the project.
     }
     
+    // Creates the project card UI
     setUI() {
         if (this.ui) { return } // If the UI element already exists, do nothing.
         this.ui = document.createElement("div") // Creates a new <div> element to represent the project in the UI.

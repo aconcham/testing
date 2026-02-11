@@ -26,6 +26,15 @@ export class Project implements IProject { // By convention, classes always star
   progress: number = 0
   id: string
 
+  // New method to dynamically get initials.
+  get initials() {
+    const words = this.name.split(" ");
+    if (words.length >= 2) {
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+    return this.name.substring(0, 2).toUpperCase();
+  }
+
   // Properties: Declares the data structure for each project. Defaults to undefined.
   constructor(data: IProject) { // Constructor: A special method that runs when a new object is created from this class.
 
@@ -52,7 +61,9 @@ export class Project implements IProject { // By convention, classes always star
     // Sets the inner HTML of the project card using template literals to insert project data.
     this.ui.innerHTML = `
       <div class="card-header">
-        <p style="background-color: #CA8134; padding: 10px; border-radius: 8px; aspect-ratio: 1;">HC</p>
+        <p style="background-color: #CA8134; padding: 10px; border-radius: 8px; aspect-ratio: 1;">
+          ${this.initials}
+        </p>
         <div>
           <h5>${this.name}</h5>
           <p>${this.description}</p>

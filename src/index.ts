@@ -82,3 +82,17 @@ if (importProjectsBtn) {
     projectsManager.importFromJSON()
   })
 }
+
+const backBtn = document.getElementById("back-to-projects-btn")
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    const projectsPage = document.getElementById("projects-page")
+    const detailsPage = document.getElementById("project-details")
+    if (projectsPage && detailsPage) {
+      detailsPage.style.display = "none"
+      projectsPage.style.display = "flex"
+    }
+  })
+} else {
+  console.warn("Back button not found")
+}

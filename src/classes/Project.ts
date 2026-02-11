@@ -9,6 +9,8 @@ export interface IProject {
   description: string
   status: ProjectStatus
   userRole: UserRole
+  cost: number
+  progress: number
   finishDate: Date
 }
 
@@ -22,8 +24,8 @@ export class Project implements IProject { // By convention, classes always star
 
   // Class internals
   ui: HTMLDivElement
-  cost: number = 0
-  progress: number = 0
+  cost: number
+  progress: number
   id: string
 
   // New method to dynamically get initials.
@@ -43,6 +45,8 @@ export class Project implements IProject { // By convention, classes always star
     this.description = data.description
     this.status = data.status
     this.userRole = data.userRole
+    this.cost = data.cost
+    this.progress = data.progress
     this.finishDate = data.finishDate
 
     /* for (const key in data) {

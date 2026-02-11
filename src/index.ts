@@ -48,6 +48,8 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
       description: formData.get("description") as string, // Retrieves the value of the "description" field from the form data.
       status: formData.get("status") as ProjectStatus,
       userRole: formData.get("userRole") as UserRole,
+      cost: Number(formData.get("cost")),
+      progress: Number(formData.get("progress")) / 100,
       finishDate: new Date(formData.get("finishDate") as string)
     }
 

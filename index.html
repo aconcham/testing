@@ -36,6 +36,15 @@
               <textarea name="description" cols="30" rows="5" placeholder="Give your project a nice description! So people is jealous about it."></textarea>
             </div>
             <div class="form-field-container">
+              <label><span class="material-icons-round">not_listed_location</span>Status</label>
+              <select name="status">
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-field-container">
               <label><span class="material-icons-round">person</span>Role</label>
               <select name="userRole">
                 <option value="engineer">Engineer</option>
@@ -45,13 +54,12 @@
               </select>
             </div>
             <div class="form-field-container">
-              <label><span class="material-icons-round">not_listed_location</span>Status</label>
-              <select name="status">
-                <option value="active">Active</option>
-                <option value="paused">Paused</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
+              <label><span class="material-icons-round">attach_money</span>Cost</label>
+              <input name="cost" type="number" placeholder="0" min="0">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">trending_up</span>Progress (0-100%)</label>
+              <input name="progress" type="number" placeholder="0" min="0" max="100">
             </div>
             <div class="form-field-container">
               <label for="finishDate">

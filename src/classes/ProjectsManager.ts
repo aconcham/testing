@@ -12,6 +12,8 @@ export class ProjectsManager {
       description: "This is just a default app project",
       status: "active",
       userRole: "engineer",
+      cost: 10000,
+      progress: 0.5,
       finishDate: new Date(),
     })
   }

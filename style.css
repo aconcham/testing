@@ -18,259 +18,257 @@
   --font-3xl: 22px;
 }
 
-*{ /* In CSS, the asterisk is known as the global selector because it targets all elements in the HTML file. */
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    font-size: var(--font-base);
+* { /* In CSS, the asterisk is known as the global selector because it targets all elements in the HTML file. */
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-base);
 }
 
 body {
-    display: grid; /* CSS Grid Layout */
-    grid-template-columns: 300px 1fr;
-    grid-template-areas: 'sidebar content';
-    height: 100vh;
-    background-color: var(--background);
-    color: #FFFFFF;
+  display: grid; /* CSS Grid Layout */
+  grid-template-columns: 300px 1fr;
+  grid-template-areas: 'sidebar content';
+  height: 100vh;
+  background-color: var(--background);
+  color: #FFFFFF;
 }
 
 /* General styles for headings */
 h2 {
-    font-size: var(--font-3xl);
+  font-size: var(--font-3xl);
 }
 
 h3 {
-    font-size: var(--font-2xl);
+  font-size: var(--font-2xl);
 }
 
 h4 {
-    font-size: var(--font-xl);
+  font-size: var(--font-xl);
 }
 
 h5 {
-    font-size: var(--font-lg);
+  font-size: var(--font-lg);
 }
 
 button {
-    padding: 8px 15px;
-    cursor: pointer;
-    height: 40px;
-    font-size: 14px;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 100px;
-    border: none;
-    display: flex;
-    align-items: center;
-    column-gap: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  height: 40px;
+  font-size: 14px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 100px;
+  border: none;
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
 }
 
 button:hover { /* Pseudo-class used to change the style of an element */
-    background-color: var(--primary-400);
+  background-color: var(--primary-400);
 }
 
 .page { /* We have two main pages: 'projects-page' and 'project-details'. Both share the .page class in the HTML. */
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 #sidebar {
-    background-color: var(--background-100);
-    padding: 25px;
-    display: flex; /* Grid is used to define the "general layout", and Flexbox is used to define how elements are displayed inside those grid cells (aligning things in one dimension). */
-    flex-direction: column;
-    row-gap: 40px; /* space between items in a column */
+  background-color: var(--background-100);
+  padding: 25px;
+  display: flex; /* Grid is used to define the "general layout", and Flexbox is used to define how elements are displayed inside those grid cells (aligning things in one dimension). */
+  flex-direction: column;
+  row-gap: 40px; /* space between items in a column */
 }
 
 #company-logo {
-    height: 200px;
-    width: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Ensures the image fits within the specified dimensions without distortion */
+  height: 200px;
+  width: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensures the image fits within the specified dimensions without distortion */
 }
 
 #nav-buttons { /* It affects the <ul> tag (the entire list) */
-    display: flex;
-    flex-direction: column;
-    row-gap: 15px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
 }
 
 #nav-buttons li { /* It affects each <li> tag (each list item) */
-    list-style-type: none;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
+  list-style-type: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
 }
 
 #nav-buttons li:hover {
-    background-color: var(--primary);
+  background-color: var(--primary);
 }
 
 /* Content styles */
-#content {
-
-}
+#content {}
 
 header {
-    padding: 30px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .project-card {
-    background-color: var(--background-100);
-    border-radius: 8px;
-    cursor: pointer;
+  background-color: var(--background-100);
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .project-card:hover {
-    outline: 2px solid var(--primary);
+  outline: 2px solid var(--primary);
 }
 
 .card-header {
-    display: flex;
-    column-gap: 20px;
-    padding: 15px 20px;
-    align-items: center;
-    justify-content: start;
-    border-bottom: 2px solid #3B3C3F;
-    height: 60px;
+  display: flex;
+  column-gap: 20px;
+  padding: 15px 20px;
+  align-items: center;
+  justify-content: start;
+  border-bottom: 2px solid #3B3C3F;
+  height: 60px;
 }
 
 .card-content {
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    align-items: start;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  align-items: start;
 }
 
 .card-property {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 #projects-list {
-    display: grid;
-    padding: 20px 40px;
-    gap: 30px;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Responsive grid layout */
+  display: grid;
+  padding: 20px 40px;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Responsive grid layout */
 }
 
 .action-icon {
-    color: darkgray;
-    border-radius: 100%;
-    padding: 4px;
-    font-size: 20px;
-    cursor: pointer;
+  color: darkgray;
+  border-radius: 100%;
+  padding: 4px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .action-icon:hover {
-    color: white;
-    background-color: var(--primary);
+  color: white;
+  background-color: var(--primary);
 }
 
 /* Form styles */
 dialog {
-    background-color: transparent;
-    border: none;
-    margin: auto; /* This is the absolute centering rule */
+  background-color: transparent;
+  border: none;
+  margin: auto; /* This is the absolute centering rule */
 }
 
 dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
-    backdrop-filter: blur(3px); /* Optional: adds a blur effect to the backdrop */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+  backdrop-filter: blur(3px); /* Optional: adds a blur effect to the backdrop */
 }
 
 form {
-    width: 450px;
-    border-radius: 10px;
-    background-color: var(--background-100);
-    color: white;
+  width: 450px;
+  border-radius: 10px;
+  background-color: var(--background-100);
+  color: white;
 }
 
 form h2 {
-    padding: 20px;
-    border-bottom: 2px solid var(--background-200);
+  padding: 20px;
+  border-bottom: 2px solid var(--background-200);
 }
 
 form .input-list { /* Container for input fields */
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    row-gap: 25px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  row-gap: 25px;
 }
 
 form .form-field-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-    font-size: var(--font-base);
-    margin-bottom: 10px;
-    font-weight: 500;
-    color: rgba(150, 150, 150, 1);
-    display: flex;
-    align-items: center;
-    column-gap: 5px;
+  font-size: var(--font-base);
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: rgba(150, 150, 150, 1);
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
 }
 
 input, textarea, select {
-    color: white;
-    background-color: var(--background-200);
-    padding: 15px;
-    border-radius: 8px;
-    border: none;
-    font-size: var(--font-base);
+  color: white;
+  background-color: var(--background-200);
+  padding: 15px;
+  border-radius: 8px;
+  border: none;
+  font-size: var(--font-base);
 }
 
 input:focus, textarea:focus, select:focus {
-    outline: 2px solid var(--primary);
+  outline: 2px solid var(--primary);
 }
 
 /* Project details page */
 .dashboard-card {
-    background-color: var(--background-100);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
+  background-color: var(--background-100);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
-#project-details > .main-page-content {
-    display: grid;
-    padding: 20px 40px;
-    gap: 30px;
-    grid-template-columns: 475px 1fr;
-    height: 100%;
+#project-details>.main-page-content {
+  display: grid;
+  padding: 20px 40px;
+  gap: 30px;
+  grid-template-columns: 475px 1fr;
+  height: 100%;
 }
 
 .btn-secondary {
-    background-color: transparent;
-    outline: 2px solid #969696;
-    width: 100px;
-    text-align: center;
+  background-color: transparent;
+  outline: 2px solid #969696;
+  width: 100px;
+  text-align: center;
 }
 
 .btn-secondary:hover {
-    background-color: var(--primary-400);
-    outline: none;
+  background-color: var(--primary-400);
+  outline: none;
 }
 
 .todo-item {
-    padding: 20px;
-    background-color: var(--background-200);
-    border-radius: 10px;
-    cursor: pointer;
+  padding: 20px;
+  background-color: var(--background-200);
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .todo-item:hover {
-    background-color: var(--primary);
+  background-color: var(--primary);
 }

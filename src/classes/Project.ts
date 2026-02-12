@@ -76,11 +76,11 @@ export class Project implements IProject { // By convention, classes always star
       <div class="card-content">
         <div class="card-property">
           <p style="color: #969696;">Status</p>
-          <p>${this.status}</p>
+          <p style="text-transform: capitalize;">${this.status}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696;">Role</p>
-          <p>${this.userRole}</p>
+          <p style="text-transform: capitalize;">${this.userRole}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696;">Cost</p>

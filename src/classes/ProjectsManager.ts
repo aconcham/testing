@@ -55,15 +55,33 @@ export class ProjectsManager {
     const name = detailsPage.querySelector("[data-project-info='name']")
     if (name) { name.textContent = project.name } */
 
+    // Query all elements containing the 'data-project-info' attribute
     const infoElements = detailsPage.querySelectorAll("[data-project-info]")
 
     infoElements.forEach((el) => {
       const key = el.getAttribute("data-project-info")
 
+      // Handle each special case
       if (key === "initials") {
         el.textContent = project.initials
+      } else if (key === "cost") {
+        el.textContent = `$${project.cost}`
+      } else if (key === "progress") {
+        const progressPercent = project.progress * 100
+        el.textContent = `${progressPercent}%` // Update text content (e.g., "23%")
+        if (el instanceof HTMLElement) {
+          el.style.width = `${progressPercent}%` // Update the green bar width
+        }
       } else if (key === "finishDate") {
-        el.textContent = project.finishDate.toLocaleDateString()
+        const date = new Date(project.finishDate)
+        el.textContent = date.toLocaleDateString("es-PE", { // "en-US"
+          dateStyle: "medium",
+          timeZone: "UTC"
+        })
+      } else if (key === "status" || key === "userRole") {
+        const value = (project as any)[key] as string
+        // Logic: Capitalize first letter + rest of the word
+        el.textContent = value.charAt(0).toUpperCase() + value.slice(1)
       } else if (key && key in project) {
         el.textContent = (project as any)[key]
       }

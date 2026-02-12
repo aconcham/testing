@@ -85,9 +85,9 @@ if (importProjectsBtn) {
   })
 }
 
-const backBtn = document.getElementById("back-to-projects-btn")
-if (backBtn) {
-  backBtn.addEventListener("click", () => {
+const projectsNavBtn = document.getElementById("projects-nav-btn")
+if (projectsNavBtn) {
+  projectsNavBtn.addEventListener("click", () => {
     const projectsPage = document.getElementById("projects-page")
     const detailsPage = document.getElementById("project-details")
     if (projectsPage && detailsPage) {
@@ -96,5 +96,5 @@ if (backBtn) {
     }
   })
 } else {
-  console.warn("Back button not found")
+  console.warn("Projects navigation button not found")
 }

@@ -9,6 +9,8 @@ export interface IProject {
   description: string
   status: ProjectStatus
   userRole: UserRole
+  cost: number
+  progress: number
   finishDate: Date
 }
 
@@ -22,9 +24,18 @@ export class Project implements IProject { // By convention, classes always star
 
   // Class internals
   ui: HTMLDivElement
-  cost: number = 0
-  progress: number = 0
+  cost: number
+  progress: number
   id: string
+
+  // New method to dynamically get initials.
+  get initials() {
+    const words = this.name.split(" ");
+    if (words.length >= 2) {
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+    return this.name.substring(0, 2).toUpperCase();
+  }
 
   // Properties: Declares the data structure for each project. Defaults to undefined.
   constructor(data: IProject) { // Constructor: A special method that runs when a new object is created from this class.
@@ -34,6 +45,8 @@ export class Project implements IProject { // By convention, classes always star
     this.description = data.description
     this.status = data.status
     this.userRole = data.userRole
+    this.cost = data.cost
+    this.progress = data.progress
     this.finishDate = data.finishDate
 
     /* for (const key in data) {
@@ -52,7 +65,9 @@ export class Project implements IProject { // By convention, classes always star
     // Sets the inner HTML of the project card using template literals to insert project data.
     this.ui.innerHTML = `
       <div class="card-header">
-        <p style="background-color: #CA8134; padding: 10px; border-radius: 8px; aspect-ratio: 1;">HC</p>
+        <p style="background-color: #CA8134; padding: 10px; border-radius: 8px; aspect-ratio: 1;">
+          ${this.initials}
+        </p>
         <div>
           <h5>${this.name}</h5>
           <p>${this.description}</p>
@@ -61,11 +76,11 @@ export class Project implements IProject { // By convention, classes always star
       <div class="card-content">
         <div class="card-property">
           <p style="color: #969696;">Status</p>
-          <p>${this.status}</p>
+          <p style="text-transform: capitalize;">${this.status}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696;">Role</p>
-          <p>${this.userRole}</p>
+          <p style="text-transform: capitalize;">${this.userRole}</p>
         </div>
         <div class="card-property">
           <p style="color: #969696;">Cost</p>

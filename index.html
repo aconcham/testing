@@ -12,7 +12,7 @@
     <img id="company-logo" src="./assets/company-logo.png" alt="Construction Company"> <!-- Logo image -->
     <ul id="nav-buttons"> <!-- Navigation buttons -->
       <!-- In HTML, li (List Item) tags are used inside ul (Unordered List) tags to structure the navigation buttons. -->
-      <li><span class="material-icons-round">apartment</span>Projects</li>
+      <li id="projects-nav-btn"><span class="material-icons-round">apartment</span>Projects</li>
       <!-- span it's a generic inline container (like a small tag). -->
       <li><span class="material-icons-round">people</span>Users</li>
       <li><span class="material-icons-round">settings</span>Settings</li>
@@ -36,6 +36,15 @@
               <textarea name="description" cols="30" rows="5" placeholder="Give your project a nice description! So people is jealous about it."></textarea>
             </div>
             <div class="form-field-container">
+              <label><span class="material-icons-round">not_listed_location</span>Status</label>
+              <select name="status">
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-field-container">
               <label><span class="material-icons-round">person</span>Role</label>
               <select name="userRole">
                 <option value="engineer">Engineer</option>
@@ -45,13 +54,12 @@
               </select>
             </div>
             <div class="form-field-container">
-              <label><span class="material-icons-round">not_listed_location</span>Status</label>
-              <select name="status">
-                <option value="active">Active</option>
-                <option value="paused">Paused</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
+              <label><span class="material-icons-round">attach_money</span>Cost</label>
+              <input name="cost" type="number" placeholder="0" min="0">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">trending_up</span>Progress (0-100%)</label>
+              <input name="progress" type="number" placeholder="0" min="0" max="100">
             </div>
             <div class="form-field-container">
               <label for="finishDate">
@@ -118,34 +126,34 @@
         <div style="display: flex; flex-direction: column; row-gap: 30px;">
           <div class="dashboard-card" style="padding: 30px 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
-              <p style="font-size: 20px; background-color: #CA8134; aspect-ratio: 1; border-radius: 100%; padding: 12px;">HC</p>
+              <p data-project-info="initials" style="font-size: 20px; background-color: #CA8134; aspect-ratio: 1; border-radius: 100%; padding: 12px;">HC</p>
               <button class="btn-secondary"><p style="width: 100%;">Edit</p></button>
             </div>
             <div style="padding: 0 30px;">
               <div>
-                <h5>Hospital Center</h5>
-                <p>Community hospital located at downtown</p>
+                <h5 data-project-info="name">Hospital Center</h5>
+                <p data-project-info="description">Community hospital located at downtown</p>
               </div>
               <div style="display: flex; column-gap: 30px; padding: 30px 0px; justify-content: space-between;">
                 <div>
                   <p style="color: #969696; font-size: var(--font-sm);">Status</p>
-                  <p>Active</p>
+                  <p data-project-info="status">Active</p>
                 </div>
                 <div>
                   <p style="color: #969696; font-size: var(--font-sm);">Role</p>
-                  <p>Engineer</p>
+                  <p data-project-info="userRole">Engineer</p>
                 </div>
                 <div>
                   <p style="color: #969696; font-size: var(--font-sm);">Cost</p>
-                  <p>$60,000,000</p>
+                  <p data-project-info="cost">$60,000,000</p>
                 </div>
                 <div>
                   <p style="color: #969696; font-size: var(--font-sm);">Finish Date</p>
-                  <p>2025-05-01</p>
+                  <p data-project-info="finishDate">2025-05-01</p>
                 </div>
               </div>
               <div style="background-color: #404040; border-radius: 9999px; overflow: auto;">
-                <div style="width: 55%; background-color: green; padding: 4px 0; text-align: center;">55%</div>
+                <div data-project-info="progress" style="width: 55%; background-color: green; padding: 4px 0; text-align: center;">55%</div>
               </div>
             </div>
           </div>

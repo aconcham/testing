@@ -1,5 +1,7 @@
 import { IProject, ProjectStatus, UserRole } from "./classes/Project"
 import { ProjectsManager } from "./classes/ProjectsManager"
+import { UsersManager } from "./classes/UsersManager"
+import { IUser, UserRole as SystemRole } from "./classes/User"
 
 // You are defining a Custom Command.
 function showModal(id: string) { // id variable is assigned a value only when the function is called.
@@ -71,6 +73,49 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
   console.warn("The project form was not found. Check the ID!") // Another safety check for the form element.
 }
 
+// --- NEW CODE FOR USERS ---
+
+const usersListUI = document.getElementById("users-list")
+if (usersListUI) {
+  const usersManager = new UsersManager(usersListUI)
+
+  // "Add User" button (opens the modal)
+  const newUserBtn = document.getElementById("new-user-btn")
+  if (newUserBtn) {
+    newUserBtn.addEventListener("click", () => {
+      showModal("new-user-modal")
+    })
+  }
+
+  // New User Form
+  const userForm = document.getElementById("new-user-form")
+  if (userForm && userForm instanceof HTMLFormElement) {
+    userForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      const formData = new FormData(userForm)
+
+      usersManager.newUser({
+        name: formData.get("name") as string,
+        email: formData.get("email") as string,
+        role: formData.get("role") as SystemRole
+      })
+
+      userForm.reset()
+      closeModal("new-user-modal")
+    })
+  }
+
+  // Cancel button on user form
+  const closeUserBtn = document.getElementById("close-user-modal-btn")
+  if (closeUserBtn) {
+    closeUserBtn.addEventListener("click", () => {
+      closeModal("new-user-modal")
+    })
+  }
+}
+
+// ---
+
 const exportProjectsBtn = document.getElementById("export-projects-btn")
 if (exportProjectsBtn) {
   exportProjectsBtn.addEventListener("click", () => {
@@ -85,16 +130,53 @@ if (importProjectsBtn) {
   })
 }
 
+// const projectsNavBtn = document.getElementById("projects-nav-btn")
+// if (projectsNavBtn) {
+//   projectsNavBtn.addEventListener("click", () => {
+//     const projectsPage = document.getElementById("projects-page")
+//     const detailsPage = document.getElementById("project-details")
+//     if (projectsPage && detailsPage) {
+//       detailsPage.style.display = "none"
+//       projectsPage.style.display = "flex"
+//     }
+//   })
+// } else {
+//   console.warn("Projects navigation button not found")
+// }
+
+// --- NAVIGATION UPDATE (SIDEBAR) ---
+
 const projectsNavBtn = document.getElementById("projects-nav-btn")
-if (projectsNavBtn) {
-  projectsNavBtn.addEventListener("click", () => {
-    const projectsPage = document.getElementById("projects-page")
-    const detailsPage = document.getElementById("project-details")
-    if (projectsPage && detailsPage) {
-      detailsPage.style.display = "none"
-      projectsPage.style.display = "flex"
+const usersNavBtn = document.getElementById("users-nav-btn")
+
+// Pages
+const projectsPage = document.getElementById("projects-page")
+const usersPage = document.getElementById("users-page")
+const detailsPage = document.getElementById("project-details")
+
+// Auxiliary function for clean page changes
+function switchPage(pageId: string) {
+    if (projectsPage) projectsPage.style.display = "none"
+    if (usersPage) usersPage.style.display = "none"
+    if (detailsPage) detailsPage.style.display = "none"
+
+    const activePage = document.getElementById(pageId)
+    if (activePage) {
+        activePage.style.display = "flex"
     }
-  })
-} else {
-  console.warn("Projects navigation button not found")
 }
+
+// Event Listeners for the Sidebar
+if (projectsNavBtn) {
+    projectsNavBtn.addEventListener("click", () => {
+        switchPage("projects-page")
+    })
+}
+
+if (usersNavBtn) {
+    usersNavBtn.addEventListener("click", () => {
+        switchPage("users-page")
+    })
+}
+
+// ---

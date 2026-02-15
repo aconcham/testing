@@ -23,7 +23,7 @@ export class Project implements IProject { // By convention, classes always star
   finishDate: Date
 
   // Class internals
-  ui: HTMLDivElement
+  ui!: HTMLDivElement
   cost: number
   progress: number
   id: string

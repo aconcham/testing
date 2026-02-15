@@ -272,3 +272,19 @@ input:focus, textarea:focus, select:focus {
 .todo-item:hover {
   background-color: var(--primary);
 }
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-100);
+  padding: 15px 25px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-item:hover {
+  background-color: var(--background-200);
+  transform: translateX(5px); /* Subtle motion effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

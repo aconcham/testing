@@ -14,7 +14,7 @@
       <!-- In HTML, li (List Item) tags are used inside ul (Unordered List) tags to structure the navigation buttons. -->
       <li id="projects-nav-btn"><span class="material-icons-round">apartment</span>Projects</li>
       <!-- span it's a generic inline container (like a small tag). -->
-      <li><span class="material-icons-round">people</span>Users</li>
+      <li id="users-nav-btn"><span class="material-icons-round">people</span>Users</li>
       <li><span class="material-icons-round">settings</span>Settings</li>
       <li><span class="material-icons-round">help</span>Help</li>
     </ul>
@@ -183,6 +183,46 @@
         </div>
         <div id="viewer-container" class="dashboard-card"></div>
       </div>
+    </div>
+    <div class="page" id="users-page" style="display: none;">
+      <dialog id="new-user-modal">
+        <form id="new-user-form">
+          <h2>New User</h2>
+          <div class="input-list">
+            <div class="form-field-container">
+              <label><span class="material-icons-round">badge</span>Name</label>
+              <input name="name" type="text" placeholder="User's full name">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">email</span>Email</label>
+              <input name="email" type="email" placeholder="user@example.com">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">manage_accounts</span>Role</label>
+              <select name="role">
+                <option value="viewer">Viewer</option>
+                <option value="editor">Editor</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div style="display: flex; margin: 10px 0px 10px auto; column-gap: 10px;">
+              <button id="close-user-modal-btn" type="button" style="background-color: transparent;">Cancel</button>
+              <button type="submit" style="background-color: green;">Accept</button>
+            </div>
+          </div>
+        </form>
+      </dialog>
+      <header>
+        <h2>Users Directory</h2>
+        <div style="display: flex; align-items: center; column-gap: 15px;">
+          <div style="display: flex; align-items: center; column-gap: 10px; border: 1px solid #3B3C3F; padding: 5px 10px; border-radius: 100px;">
+            <span class="material-icons-round" style="color: #969696;">search</span>
+            <input type="text" placeholder="Search users..." style="background: transparent; border: none; color: white; outline: none; padding: 0;">
+          </div>
+          <button id="new-user-btn"><span class="material-icons-round">person_add</span>Add User</button>
+        </div>
+      </header>
+      <div id="users-list" style="padding: 20px 40px; display: flex; flex-direction: column; gap: 10px;"></div>
     </div>
   </main>
   <script type="module" src="./src/index.ts"></script> <!-- Link to the JavaScript file. Note: The type="module" attribute is crucial. It signals the browser to treat this script as an ES Module, enabling the use of import and export statements. -->

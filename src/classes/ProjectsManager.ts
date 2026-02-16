@@ -69,6 +69,11 @@ export class ProjectsManager {
       // Handle each special case
       if (key === "initials") {
         el.textContent = project.initials
+        // --- ADD THIS TO MATCH THE COLOR ---
+        if (el instanceof HTMLElement) {
+          el.style.backgroundColor = project.backgroundColor
+        }
+        // -----------------------------------
       } else if (key === "cost") {
         el.textContent = `$${project.cost}`
       } else if (key === "progress") {

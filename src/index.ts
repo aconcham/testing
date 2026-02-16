@@ -45,6 +45,15 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
   projectForm.addEventListener("submit", (e) => {
     e.preventDefault() // Prevents the default form submission behavior (which would reload the page).
     const formData = new FormData(projectForm) // Creates a FormData object from the form, allowing easy access to its fields.
+
+    // Capture the form date in a separate variable
+    const dateInput = formData.get("finishDate") as string
+
+    // Define date logic
+    // If 'dateInput' has a value, create that specific date.
+    // If it's empty (false), create a new date object (defaults to today).
+    const finalDate = dateInput ? new Date(dateInput) : new Date()
+
     const projectData: IProject = {
       name: formData.get("name") as string,
       description: formData.get("description") as string, // Retrieves the value of the "description" field from the form data.
@@ -52,7 +61,8 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
       userRole: formData.get("userRole") as UserRole,
       cost: Number(formData.get("cost")),
       progress: Number(formData.get("progress")) / 100,
-      finishDate: new Date(formData.get("finishDate") as string)
+      // finishDate: new Date(formData.get("finishDate") as string)
+      finishDate: finalDate
     }
 
     // console.log("Description:", formData.get("description")) // Logs the value of the "description" field to the console.

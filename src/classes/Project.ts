@@ -27,6 +27,7 @@ export class Project implements IProject { // By convention, classes always star
   cost: number
   progress: number
   id: string
+  backgroundColor: string // Property to store the color
 
   // New method to dynamically get initials.
   get initials() {
@@ -54,7 +55,23 @@ export class Project implements IProject { // By convention, classes always star
     } */
 
     this.id = uuidv4() // Generates a unique identifier for the project using the uuid library.
+    this.backgroundColor = this.getRandomColor() // Generate the color when creating the project
     this.setUI() // Calls the setUI method to create the UI representation of the project.
+  }
+
+  // Helper method to get a random color
+  getRandomColor() {
+    const colors = [
+      "#CA8134", // Orange (Original)
+      "#8739FA", // Violet
+      "#396AFA", // Royal Blue
+      "#FA3939", // Soft Red
+      "#2E7D32", // Forest Green
+      "#9B870C", // Dark Yellow
+      "#E62E91"  // Pink
+    ]
+    const randomIndex = Math.floor(Math.random() * colors.length)
+    return colors[randomIndex]
   }
 
   // Creates the project card UI
@@ -65,7 +82,7 @@ export class Project implements IProject { // By convention, classes always star
     // Sets the inner HTML of the project card using template literals to insert project data.
     this.ui.innerHTML = `
       <div class="card-header">
-        <p style="background-color: #CA8134; padding: 10px; border-radius: 8px; aspect-ratio: 1;">
+        <p style="background-color: ${this.backgroundColor}; padding: 10px; border-radius: 8px; aspect-ratio: 1;">
           ${this.initials}
         </p>
         <div>

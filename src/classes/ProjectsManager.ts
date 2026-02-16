@@ -20,6 +20,11 @@ export class ProjectsManager {
 
   // Method to create a new project
   newProject(data: IProject) {
+    // If the name is shorter than 5 characters, throw an error and halt execution.
+    if (data.name.length < 5) {
+      throw new Error("Project name must be at least 5 characters long!")
+    }
+    
     // Extract all existing names
     const projectNames = this.list.map((project) => {
       return project.name

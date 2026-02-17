@@ -223,23 +223,35 @@ export class ProjectsManager {
     input.type = "file"
     input.accept = "application/json"
     const reader = new FileReader()
+
     reader.addEventListener("load", () => {
       const json = reader.result
       if (!json) { return }
+
       const projects: IProject[] = JSON.parse(json as string)
+
+      // --- IMPORTANT CHANGE: Clear before importing ---
+      // This prevents name conflicts (like "Default Project") and duplication
+      this.list = [] // Clear memory
+      this.ui.innerHTML = "" // Clear the UI (view)
+      // ------------------------------------------------
+
       for (const project of projects) {
         try {
           this.newProject(project)
         } catch (error) {
-          // Ignore errors (e.g., duplicate project names)
+          // // Ignore errors (e.g., duplicate project names)
+          console.error(error)
         }
       }
     })
+
     input.addEventListener("change", () => {
       const filesList = input.files
       if (!filesList) { return }
       reader.readAsText(filesList[0])
     })
+    
     input.click()
   }
 }

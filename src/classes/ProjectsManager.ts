@@ -52,7 +52,8 @@ export class ProjectsManager {
   }
 
   // Private method to set up the project details page
-  private setDetailsPage(project: Project) {
+  // Change: from private to public
+  public setDetailsPage(project: Project) {
     const detailsPage = document.getElementById("project-details")
     if (!detailsPage) { return }
 
@@ -96,6 +97,46 @@ export class ProjectsManager {
         el.textContent = (project as any)[key]
       }
     })
+
+    // --- NEW BLOCK: Edit Button Logic ---
+    const editBtn = document.getElementById("edit-project-btn")
+    if (editBtn) {
+      // Use 'onclick' to override previous event handlers when switching projects
+      editBtn.onclick = () => {
+        const modal = document.getElementById("edit-project-modal")
+        const form = document.getElementById("edit-project-form")
+
+        if (modal && modal instanceof HTMLDialogElement && form && form instanceof HTMLFormElement) {
+          // Populate inputs with current project data
+          const nameInput = form.querySelector("[name='name']") as HTMLInputElement
+          const descInput = form.querySelector("[name='description']") as HTMLTextAreaElement
+          const statusInput = form.querySelector("[name='status']") as HTMLSelectElement
+          const roleInput = form.querySelector("[name='userRole']") as HTMLSelectElement
+          const costInput = form.querySelector("[name='cost']") as HTMLInputElement
+          const progressInput = form.querySelector("[name='progress']") as HTMLInputElement
+          const dateInput = form.querySelector("[name='finishDate']") as HTMLInputElement
+          const idInput = form.querySelector("[name='id']") as HTMLInputElement
+
+          nameInput.value = project.name
+          descInput.value = project.description
+          statusInput.value = project.status
+          roleInput.value = project.userRole
+          costInput.value = project.cost.toString()
+          progressInput.value = (project.progress * 100).toString()
+          idInput.value = project.id // Very important!
+
+          // Date formatting for input type="date" (YYYY-MM-DD)
+          const date = new Date(project.finishDate)
+          const year = date.getFullYear()
+          const month = (date.getMonth() + 1).toString().padStart(2, '0')
+          const day = date.getDate().toString().padStart(2, '0')
+          dateInput.value = `${year}-${month}-${day}`
+
+          // Show the modal
+          modal.showModal()
+        }
+      }
+    }
   }
 
   // Method to get a project by its ID

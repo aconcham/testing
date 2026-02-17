@@ -76,9 +76,14 @@ export class Project implements IProject { // By convention, classes always star
 
   // Creates the project card UI
   setUI() {
-    if (this.ui) { return } // If the UI element already exists, do nothing.
-    this.ui = document.createElement("div") // Creates a new <div> element to represent the project in the UI.
-    this.ui.className = "project-card" // Assigns a CSS class for styling.
+    // if (this.ui) { return } // If the UI element already exists, do nothing.
+
+    // If it doesn't exist, create it. If it exists, just update the innerHTML.
+    if (!this.ui) {
+      this.ui = document.createElement("div") // Creates a new <div> element to represent the project in the UI.
+      this.ui.className = "project-card" // Assigns a CSS class for styling.
+    }
+
     // Sets the inner HTML of the project card using template literals to insert project data.
     this.ui.innerHTML = `
       <div class="card-header">

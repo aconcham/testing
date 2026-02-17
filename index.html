@@ -116,6 +116,56 @@
       </div>
     </div>
     <div class="page" id="project-details" style="display: none;"> <!-- Project details page, hidden by default -->
+      <dialog id="edit-project-modal">
+        <form id="edit-project-form">
+          <h2>Edit Project</h2>
+          <div class="input-list">
+            <input type="hidden" name="id">
+            <div class="form-field-container">
+              <label><span class="material-icons-round">apartment</span>Name</label>
+              <input name="name" type="text" placeholder="Project name">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">subject</span>Description</label>
+              <textarea name="description" cols="30" rows="5"></textarea>
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">not_listed_location</span>Status</label>
+              <select name="status">
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">person</span>Role</label>
+              <select name="userRole">
+                <option value="engineer">Engineer</option>
+                <option value="architect">Architect</option>
+                <option value="manager">Manager</option>
+                <option value="supervisor">Supervisor</option>
+              </select>
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">attach_money</span>Cost</label>
+              <input name="cost" type="number" min="0">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">trending_up</span>Progress (0-100%)</label>
+              <input name="progress" type="number" min="0" max="100">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">calendar_month</span>Finish Date</label>
+              <input name="finishDate" type="date">
+            </div>
+            <div style="display: flex; margin: 10px 0px 10px auto; column-gap: 10px;">
+              <button id="close-edit-modal-btn" type="button" style="background-color: transparent;">Cancel</button>
+              <button type="submit" style="background-color: #CA8134;">Update</button>
+            </div>
+          </div>
+        </form>
+      </dialog>
       <header>
         <div>
           <h2 data-project-info="name">Hospital Center</h2>
@@ -127,7 +177,7 @@
           <div class="dashboard-card" style="padding: 30px 0;">
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0px 30px; margin-bottom: 30px;">
               <p data-project-info="initials" style="font-size: 20px; background-color: #CA8134; aspect-ratio: 1; border-radius: 100%; padding: 12px;">HC</p>
-              <button class="btn-secondary"><p style="width: 100%;">Edit</p></button>
+              <button id="edit-project-btn" class="btn-secondary"><p style="width: 100%;">Edit</p></button>
             </div>
             <div style="padding: 0 30px;">
               <div>

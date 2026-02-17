@@ -190,3 +190,45 @@ if (usersNavBtn) {
 }
 
 // ---
+
+// --- EDIT LOGIC ---
+
+const editProjectForm = document.getElementById("edit-project-form")
+if (editProjectForm && editProjectForm instanceof HTMLFormElement) {
+  editProjectForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const formData = new FormData(editProjectForm)
+
+    // 1. Get the ID of the project we are editing
+    const projectId = formData.get("id") as string
+    const project = projectsManager.getProject(projectId)
+
+    if (project) {
+      // 2. Update object properties
+      project.name = formData.get("name") as string
+      project.description = formData.get("description") as string
+      project.status = formData.get("status") as ProjectStatus
+      project.userRole = formData.get("userRole") as UserRole
+      project.cost = Number(formData.get("cost"))
+      project.progress = Number(formData.get("progress")) / 100
+
+      const dateInput = formData.get("finishDate") as string
+      if (dateInput) {
+        project.finishDate = new Date(dateInput)
+      }
+
+      // 3. Update the UI (Dashboard Card + Details Page)
+      project.setUI() // Refreshes the dashboard card
+      projectsManager.setDetailsPage(project) // Refreshes the current details page
+    }
+
+    closeModal("edit-project-modal")
+  })
+}
+
+const closeEditBtn = document.getElementById("close-edit-modal-btn")
+if (closeEditBtn) {
+  closeEditBtn.addEventListener("click", () => {
+    closeModal("edit-project-modal")
+  })
+}

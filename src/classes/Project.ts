@@ -3,6 +3,14 @@ import { v4 as uuidv4 } from "uuid"
 export type ProjectStatus = "active" | "paused" | "completed" | "cancelled"
 export type UserRole = "engineer" | "architect" | "manager" | "supervisor"
 
+// --- NEW INTERFACE FOR TASKS (TODOs) ---
+export interface IToDo {
+  id: string
+  text: string
+  date: Date
+}
+// ---------------------------------------
+
 // An Interface is like a contract or a data schema. It defines what properties an object MUST have to be considered a valid project. The convention is to use a capital 'I' prefix (e.g., IProject).
 export interface IProject {
   name: string
@@ -28,6 +36,10 @@ export class Project implements IProject { // By convention, classes always star
   progress: number
   id: string
   backgroundColor: string // Property to store the color
+
+  // --- NEW PROPERTY ---
+  todoList: IToDo[] = []
+  // --------------------
 
   // New method to dynamically get initials.
   get initials() {

@@ -166,6 +166,26 @@
           </div>
         </form>
       </dialog>
+      <dialog id="new-todo-modal">
+        <form id="new-todo-form">
+          <h2>New To-Do</h2>
+          <div class="input-list">
+            <input type="hidden" name="projectId">
+            <div class="form-field-container">
+              <label><span class="material-icons-round">description</span>Task Description</label>
+              <input name="text" type="text" placeholder="What needs to be done?">
+            </div>
+            <div class="form-field-container">
+              <label><span class="material-icons-round">calendar_today</span>Due Date</label>
+              <input name="date" type="date">
+            </div>
+            <div style="display: flex; margin: 10px 0px 10px auto; column-gap: 10px;">
+              <button id="close-todo-modal-btn" type="button" style="background-color: transparent;">Cancel</button>
+              <button type="submit" style="background-color: #CA8134;">Add Task</button>
+            </div>
+          </div>
+        </form>
+      </dialog>
       <header>
         <div>
           <h2 data-project-info="name">Hospital Center</h2>
@@ -215,11 +235,11 @@
                   <span class="material-icons-round">search</span>
                   <input type="text" placeholder="Search To-Do's by name" style="width: 100%;">
                 </div>
-                <span class="material-icons-round">add</span>
+                <span id="add-todo-btn" class="material-icons-round" style="cursor: pointer;">add</span>
               </div>
             </div>
-            <div style="display: flex; flex-direction: column; padding: 10px 30px; row-gap: 20px;">
-              <div class="todo-item">
+            <div id="todo-list" style="display: flex; flex-direction: column; padding: 10px 30px; row-gap: 20px;">
+              <!-- <div class="todo-item">
                 <div style="display: flex; justify-content: space-between; align-items: center">
                   <div style="display: flex; column-gap: 15px; align-items: center;">
                     <span class="material-icons-round" style="padding: 10px; background-color: #686868; border-radius: 10px;">construction</span>
@@ -227,7 +247,7 @@
                   </div>
                   <p style="text-wrap: nowrap; margin-left: 10px;">Fri, 20 sep</p>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

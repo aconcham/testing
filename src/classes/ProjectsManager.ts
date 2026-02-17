@@ -1,4 +1,5 @@
-import { IProject, Project } from "./Project"
+import { IProject, Project, IToDo } from "./Project"
+import { v4 as uuidv4 } from "uuid"
 
 export class ProjectsManager {
   list: Project[] = [] // Array to hold Project instances
@@ -97,6 +98,48 @@ export class ProjectsManager {
         el.textContent = (project as any)[key]
       }
     })
+
+    // --- TO-DO LIST LOGIC ---
+    const todoList = document.getElementById("todo-list")
+    if (todoList) {
+      // 1. Clear the list to prevent duplicates when re-entering
+      todoList.innerHTML = ""
+
+      // 2. Iterate through project tasks and render them
+      project.todoList.forEach(todo => {
+        const todoItem = document.createElement("div")
+        todoItem.className = "todo-item"
+
+        // Format date
+        const date = new Date(todo.date)
+        const dateStr = date.toLocaleDateString("es-PE", { dateStyle: "medium", timeZone: "UTC" })
+
+        todoItem.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <div style="display: flex; column-gap: 15px; align-items: center;">
+            <span class="material-icons-round" style="padding: 10px; background-color: #686868; border-radius: 10px;">construction</span>
+            <p>${todo.text}</p>
+          </div>
+          <p style="text-wrap: nowrap; margin-left: 10px;">${dateStr}</p>
+        </div>
+        `
+        todoList.appendChild(todoItem)
+      })
+    }
+
+    // --- "ADD TO-DO" BUTTON LOGIC ---
+    const addTodoBtn = document.getElementById("add-todo-btn")
+    if (addTodoBtn) {
+      addTodoBtn.onclick = () => {
+        const modal = document.getElementById("new-todo-modal")
+        const inputProjectId = document.querySelector("#new-todo-form input[name='projectId']") as HTMLInputElement
+
+        if (modal && modal instanceof HTMLDialogElement && inputProjectId) {
+          inputProjectId.value = project.id // Store the current project ID
+          modal.showModal()
+        }
+      }
+    }
 
     // --- NEW BLOCK: Edit Button Logic ---
     const editBtn = document.getElementById("edit-project-btn")

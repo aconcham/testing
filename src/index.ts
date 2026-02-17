@@ -2,6 +2,7 @@ import { IProject, ProjectStatus, UserRole } from "./classes/Project"
 import { ProjectsManager } from "./classes/ProjectsManager"
 import { UsersManager } from "./classes/UsersManager"
 import { IUser, UserRole as SystemRole } from "./classes/User"
+import { v4 as uuidv4 } from "uuid"
 
 // You are defining a Custom Command.
 function showModal(id: string) { // id variable is assigned a value only when the function is called.
@@ -82,6 +83,53 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
 } else {
   console.warn("The project form was not found. Check the ID!") // Another safety check for the form element.
 }
+
+// --- TO-DO LIST LOGIC ---
+
+const todoForm = document.getElementById("new-todo-form")
+if (todoForm && todoForm instanceof HTMLFormElement) {
+  todoForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const formData = new FormData(todoForm)
+
+    // 1. Get the project ID from the hidden input field
+    const projectId = formData.get("projectId") as string
+    const project = projectsManager.getProject(projectId)
+
+    if (project) {
+      // 2. Create the task (todo item)
+      const todoText = formData.get("text") as string
+      const todoDateStr = formData.get("date") as string
+
+      // Basic validation
+      if(todoText) {
+        const todo = {
+          id: uuidv4(),
+          text: todoText,
+          // If no date is provided, default to today. Otherwise, parse the date.
+          date: todoDateStr ? new Date(todoDateStr) : new Date()
+        }
+
+        // 3. Add the task to the project list
+        project.todoList.push(todo)
+
+        // 4. Update the details view
+        projectsManager.setDetailsPage(project)
+      }
+    }
+    todoForm.reset()
+    closeModal("new-todo-modal")
+  })
+}
+
+const closeTodoBtn = document.getElementById("close-todo-modal-btn")
+if (closeTodoBtn) {
+  closeTodoBtn.addEventListener("click", () => {
+    closeModal("new-todo-modal")
+  })
+}
+
+// ------------------------
 
 // --- NEW CODE FOR USERS ---
 

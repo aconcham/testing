@@ -1,7 +1,8 @@
-import { IProject, ProjectStatus, UserRole } from "./classes/Project"
+import { IProject, ProjectStatus, UserRole, IToDo, ToDoStatus } from "./classes/Project"
 import { ProjectsManager } from "./classes/ProjectsManager"
 import { UsersManager } from "./classes/UsersManager"
 import { IUser, UserRole as SystemRole } from "./classes/User"
+import { v4 as uuidv4 } from "uuid"
 
 // You are defining a Custom Command.
 function showModal(id: string) { // id variable is assigned a value only when the function is called.
@@ -45,6 +46,15 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
   projectForm.addEventListener("submit", (e) => {
     e.preventDefault() // Prevents the default form submission behavior (which would reload the page).
     const formData = new FormData(projectForm) // Creates a FormData object from the form, allowing easy access to its fields.
+
+    // Capture the form date in a separate variable
+    const dateInput = formData.get("finishDate") as string
+
+    // Define date logic
+    // If 'dateInput' has a value, create that specific date.
+    // If it's empty (false), create a new date object (defaults to today).
+    const finalDate = dateInput ? new Date(dateInput) : new Date()
+
     const projectData: IProject = {
       name: formData.get("name") as string,
       description: formData.get("description") as string, // Retrieves the value of the "description" field from the form data.
@@ -52,7 +62,8 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
       userRole: formData.get("userRole") as UserRole,
       cost: Number(formData.get("cost")),
       progress: Number(formData.get("progress")) / 100,
-      finishDate: new Date(formData.get("finishDate") as string)
+      // finishDate: new Date(formData.get("finishDate") as string)
+      finishDate: finalDate
     }
 
     // console.log("Description:", formData.get("description")) // Logs the value of the "description" field to the console.
@@ -72,6 +83,55 @@ if (projectForm && projectForm instanceof HTMLFormElement) { // Safety check to 
 } else {
   console.warn("The project form was not found. Check the ID!") // Another safety check for the form element.
 }
+
+// --- TO-DO LIST LOGIC ---
+
+const todoForm = document.getElementById("new-todo-form")
+if (todoForm && todoForm instanceof HTMLFormElement) {
+  todoForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const formData = new FormData(todoForm)
+
+    // 1. Get the project ID from the hidden input field
+    const projectId = formData.get("projectId") as string
+    const project = projectsManager.getProject(projectId)
+
+    if (project) {
+      // 2. Create the task (todo item)
+      const todoText = formData.get("text") as string
+      const todoDateStr = formData.get("date") as string
+      const todoStatus = formData.get("status") as ToDoStatus
+
+      // Basic validation
+      if(todoText) {
+        const todo: IToDo = {
+          id: uuidv4(),
+          text: todoText,
+          // If no date is provided, default to today. Otherwise, parse the date.
+          date: todoDateStr ? new Date(todoDateStr) : new Date(),
+          status: todoStatus
+        }
+
+        // 3. Add the task to the project list
+        project.todoList.push(todo)
+
+        // 4. Update the details view
+        projectsManager.setDetailsPage(project)
+      }
+    }
+    todoForm.reset()
+    closeModal("new-todo-modal")
+  })
+}
+
+const closeTodoBtn = document.getElementById("close-todo-modal-btn")
+if (closeTodoBtn) {
+  closeTodoBtn.addEventListener("click", () => {
+    closeModal("new-todo-modal")
+  })
+}
+
+// ------------------------
 
 // --- NEW CODE FOR USERS ---
 
@@ -180,3 +240,45 @@ if (usersNavBtn) {
 }
 
 // ---
+
+// --- EDIT LOGIC ---
+
+const editProjectForm = document.getElementById("edit-project-form")
+if (editProjectForm && editProjectForm instanceof HTMLFormElement) {
+  editProjectForm.addEventListener("submit", (e) => {
+    e.preventDefault()
+    const formData = new FormData(editProjectForm)
+
+    // 1. Get the ID of the project we are editing
+    const projectId = formData.get("id") as string
+    const project = projectsManager.getProject(projectId)
+
+    if (project) {
+      // 2. Update object properties
+      project.name = formData.get("name") as string
+      project.description = formData.get("description") as string
+      project.status = formData.get("status") as ProjectStatus
+      project.userRole = formData.get("userRole") as UserRole
+      project.cost = Number(formData.get("cost"))
+      project.progress = Number(formData.get("progress")) / 100
+
+      const dateInput = formData.get("finishDate") as string
+      if (dateInput) {
+        project.finishDate = new Date(dateInput)
+      }
+
+      // 3. Update the UI (Dashboard Card + Details Page)
+      project.setUI() // Refreshes the dashboard card
+      projectsManager.setDetailsPage(project) // Refreshes the current details page
+    }
+
+    closeModal("edit-project-modal")
+  })
+}
+
+const closeEditBtn = document.getElementById("close-edit-modal-btn")
+if (closeEditBtn) {
+  closeEditBtn.addEventListener("click", () => {
+    closeModal("edit-project-modal")
+  })
+}

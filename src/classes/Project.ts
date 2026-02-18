@@ -3,6 +3,17 @@ import { v4 as uuidv4 } from "uuid"
 export type ProjectStatus = "active" | "paused" | "completed" | "cancelled"
 export type UserRole = "engineer" | "architect" | "manager" | "supervisor"
 
+export type ToDoStatus = "pending" | "in-progress" | "finished"
+
+// --- NEW INTERFACE FOR TASKS (TODOs) ---
+export interface IToDo {
+  id: string
+  text: string
+  date: Date
+  status: ToDoStatus
+}
+// ---------------------------------------
+
 // An Interface is like a contract or a data schema. It defines what properties an object MUST have to be considered a valid project. The convention is to use a capital 'I' prefix (e.g., IProject).
 export interface IProject {
   name: string
@@ -12,6 +23,8 @@ export interface IProject {
   cost: number
   progress: number
   finishDate: Date
+  todoList?: IToDo[]
+  id?: string
 }
 
 export class Project implements IProject { // By convention, classes always start with a capital letter (PascalCase).
@@ -27,6 +40,11 @@ export class Project implements IProject { // By convention, classes always star
   cost: number
   progress: number
   id: string
+  backgroundColor: string // Property to store the color
+
+  // --- NEW PROPERTY ---
+  todoList: IToDo[] = []
+  // --------------------
 
   // New method to dynamically get initials.
   get initials() {
@@ -53,19 +71,56 @@ export class Project implements IProject { // By convention, classes always star
       this[key] = data[key]
     } */
 
-    this.id = uuidv4() // Generates a unique identifier for the project using the uuid library.
+    // this.id = uuidv4() // Generates a unique identifier for the project using the uuid library.
+    
+    // Use existing ID if provided, otherwise generate a new one
+    this.id = data.id || uuidv4()
+    this.backgroundColor = this.getRandomColor() // Generate the color when creating the project
+
+    // ADDED: Hydration Logic (Restore tasks from JSON)
+    // If the 'data' object (the imported JSON) contains tasks, save them.
+    if (data.todoList) {
+      this.todoList = data.todoList.map(todo => {
+        return {
+          ...todo,
+          date: new Date(todo.date),
+          status: todo.status || "pending"
+        }
+      })
+    }
+
     this.setUI() // Calls the setUI method to create the UI representation of the project.
+  }
+
+  // Helper method to get a random color
+  getRandomColor() {
+    const colors = [
+      "#CA8134", // Orange (Original)
+      "#8739FA", // Violet
+      "#396AFA", // Royal Blue
+      "#FA3939", // Soft Red
+      "#2E7D32", // Forest Green
+      "#9B870C", // Dark Yellow
+      "#E62E91"  // Pink
+    ]
+    const randomIndex = Math.floor(Math.random() * colors.length)
+    return colors[randomIndex]
   }
 
   // Creates the project card UI
   setUI() {
-    if (this.ui) { return } // If the UI element already exists, do nothing.
-    this.ui = document.createElement("div") // Creates a new <div> element to represent the project in the UI.
-    this.ui.className = "project-card" // Assigns a CSS class for styling.
+    // if (this.ui) { return } // If the UI element already exists, do nothing.
+
+    // If it doesn't exist, create it. If it exists, just update the innerHTML.
+    if (!this.ui) {
+      this.ui = document.createElement("div") // Creates a new <div> element to represent the project in the UI.
+      this.ui.className = "project-card" // Assigns a CSS class for styling.
+    }
+
     // Sets the inner HTML of the project card using template literals to insert project data.
     this.ui.innerHTML = `
       <div class="card-header">
-        <p style="background-color: #CA8134; padding: 10px; border-radius: 8px; aspect-ratio: 1;">
+        <p style="background-color: ${this.backgroundColor}; padding: 10px; border-radius: 8px; aspect-ratio: 1;">
           ${this.initials}
         </p>
         <div>

@@ -21,6 +21,7 @@ export interface IProject {
   progress: number
   finishDate: Date
   todoList?: IToDo[]
+  id?: string
 }
 
 export class Project implements IProject { // By convention, classes always start with a capital letter (PascalCase).
@@ -67,7 +68,10 @@ export class Project implements IProject { // By convention, classes always star
       this[key] = data[key]
     } */
 
-    this.id = uuidv4() // Generates a unique identifier for the project using the uuid library.
+    // this.id = uuidv4() // Generates a unique identifier for the project using the uuid library.
+    
+    // Use existing ID if provided, otherwise generate a new one
+    this.id = data.id || uuidv4()
     this.backgroundColor = this.getRandomColor() // Generate the color when creating the project
 
     // ADDED: Hydration Logic (Restore tasks from JSON)

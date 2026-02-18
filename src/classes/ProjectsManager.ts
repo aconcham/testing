@@ -230,18 +230,69 @@ export class ProjectsManager {
 
       const projects: IProject[] = JSON.parse(json as string)
 
-      // --- IMPORTANT CHANGE: Clear before importing ---
-      // This prevents name conflicts (like "Default Project") and duplication
-      this.list = [] // Clear memory
-      this.ui.innerHTML = "" // Clear the UI (view)
-      // ------------------------------------------------
+      // // --- IMPORTANT CHANGE: Clear before importing ---
+      // // This prevents name conflicts (like "Default Project") and duplication
+      // this.list = [] // Clear memory
+      // this.ui.innerHTML = "" // Clear the UI (view)
+      // // ------------------------------------------------
 
-      for (const project of projects) {
+      for (const importedProject of projects) {
         try {
-          this.newProject(project)
+          // UPSERT LOGIC (Update or Insert)
+
+          // 1. Check if the project already exists by ID
+          const projectById = this.getProject(importedProject.id || "")
+
+          // 2. Check if the project already exists by NAME (To prevent Default Project errors)
+          const projectByName = this.list.find(p => p.name === importedProject.name)
+
+          // Select the match found (either by ID or Name)
+          const existingProject = projectById || projectByName
+
+          if (existingProject) {
+            // --- SCENARIO A: PROJECT EXISTS (UPDATE) ---
+
+            // Update simple properties
+            existingProject.name = importedProject.name
+            existingProject.description = importedProject.description
+            existingProject.status = importedProject.status
+            existingProject.userRole = importedProject.userRole
+            existingProject.cost = importedProject.cost
+            existingProject.progress = importedProject.progress
+
+            // Convert date string to Date object
+            existingProject.finishDate = new Date(importedProject.finishDate)
+
+            // Important: If we matched by name but IDs were different, 
+            // sync the ID with the JSON to maintain future consistency.
+            if (importedProject.id) {
+              existingProject.id = importedProject.id
+            }
+
+            // Update todo list (converting dates)
+            if (importedProject.todoList) {
+              existingProject.todoList = importedProject.todoList.map(todo => ({
+                ...todo,
+                date: new Date(todo.date)
+              }))
+            } else {
+              existingProject.todoList = []
+            }
+
+            // Regenerate the view (Project Card UI)
+            existingProject.setUI()
+            this.setDetailsPage(existingProject)
+
+          } else {
+            // --- SCENARIO B: PROJECT IS NEW (CREATE) ---
+            // Simply call newProject. 
+            // Since we updated Project.ts, the JSON ID will be preserved.
+            this.newProject(importedProject)
+          }
+
         } catch (error) {
           // // Ignore errors (e.g., duplicate project names)
-          console.error(error)
+          console.error(`Error importing project "${importedProject.name}":`, error)
         }
       }
     })

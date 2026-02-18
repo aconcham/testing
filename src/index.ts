@@ -1,4 +1,4 @@
-import { IProject, ProjectStatus, UserRole } from "./classes/Project"
+import { IProject, ProjectStatus, UserRole, IToDo, ToDoStatus } from "./classes/Project"
 import { ProjectsManager } from "./classes/ProjectsManager"
 import { UsersManager } from "./classes/UsersManager"
 import { IUser, UserRole as SystemRole } from "./classes/User"
@@ -100,14 +100,16 @@ if (todoForm && todoForm instanceof HTMLFormElement) {
       // 2. Create the task (todo item)
       const todoText = formData.get("text") as string
       const todoDateStr = formData.get("date") as string
+      const todoStatus = formData.get("status") as ToDoStatus
 
       // Basic validation
       if(todoText) {
-        const todo = {
+        const todo: IToDo = {
           id: uuidv4(),
           text: todoText,
           // If no date is provided, default to today. Otherwise, parse the date.
-          date: todoDateStr ? new Date(todoDateStr) : new Date()
+          date: todoDateStr ? new Date(todoDateStr) : new Date(),
+          status: todoStatus
         }
 
         // 3. Add the task to the project list

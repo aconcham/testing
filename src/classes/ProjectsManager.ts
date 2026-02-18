@@ -110,19 +110,69 @@ export class ProjectsManager {
         const todoItem = document.createElement("div")
         todoItem.className = "todo-item"
 
+        // 1. DEFINE COLORS BASED ON STATUS
+        // Pending: Dark Gray (Default)
+        // In Progress: Blue or Orange
+        // Finished: Green
+        let background = "#3B3C3F"
+        if (todo.status === "in-progress") {
+          background = "#029AE0" // Primary Blue
+        } else if (todo.status === "finished") {
+          background = "#4CAF50" // Success Green
+        }
+
+        // Apply the color and a smooth transition
+        todoItem.style.backgroundColor = background
+        todoItem.style.transition = "background-color 0.3s ease"
+
         // Format date
         const date = new Date(todo.date)
         const dateStr = date.toLocaleDateString("es-PE", { dateStyle: "medium", timeZone: "UTC" })
 
+        // 2. RENDER THE CARD WITH AN EMBEDDED SELECTOR
+        // The strategy here is to embed a small <select> inside the card
+        // and mark the current option as 'selected'.
         todoItem.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center">
           <div style="display: flex; column-gap: 15px; align-items: center;">
-            <span class="material-icons-round" style="padding: 10px; background-color: #686868; border-radius: 10px;">construction</span>
-            <p>${todo.text}</p>
+            <span class="material-icons-round" style="padding: 10px; background-color: rgba(0,0,0,0.2); border-radius: 10px;">construction</span>
+            <div>
+              <p style="font-weight: 600;">${todo.text}</p>
+              <p style="font-size: 12px; color: rgba(255,255,255,0.7);">${dateStr}</p>
+            </div>
           </div>
-          <p style="text-wrap: nowrap; margin-left: 10px;">${dateStr}</p>
+          
+          <div class="todo-status-container" style="margin-left: 10px;">
+            <select class="todo-status-select" style="background: rgba(0,0,0,0.2); border: none; color: white; padding: 5px; font-size: 12px; border-radius: 5px; cursor: pointer;">
+              <option value="pending" ${todo.status === 'pending' ? 'selected' : ''}>Pending</option>
+              <option value="in-progress" ${todo.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+              <option value="finished" ${todo.status === 'finished' ? 'selected' : ''}>Finished</option>
+            </select>
+          </div>
+
         </div>
         `
+
+        // 3. UPDATE LOGIC
+        // Listen for changes on the card selector
+        const statusSelect = todoItem.querySelector(".todo-status-select") as HTMLSelectElement
+        if (statusSelect) {
+          statusSelect.addEventListener("change", (e) => {
+            // Stop propagation to prevent triggering other click events (bubbling)
+            e.stopPropagation()
+
+            // Update the data in memory
+            const newStatus = statusSelect.value as any
+            todo.status = newStatus
+
+            // Re-render the list to update the background color immediately
+            this.setDetailsPage(project)
+          })
+
+          // Small detail: Prevent click propagation to avoid triggering parent hover effects
+          statusSelect.addEventListener("click", (e) => e.stopPropagation())
+        }
+        
         todoList.appendChild(todoItem)
       })
     }

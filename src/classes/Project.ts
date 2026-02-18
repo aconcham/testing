@@ -3,11 +3,14 @@ import { v4 as uuidv4 } from "uuid"
 export type ProjectStatus = "active" | "paused" | "completed" | "cancelled"
 export type UserRole = "engineer" | "architect" | "manager" | "supervisor"
 
+export type ToDoStatus = "pending" | "in-progress" | "finished"
+
 // --- NEW INTERFACE FOR TASKS (TODOs) ---
 export interface IToDo {
   id: string
   text: string
   date: Date
+  status: ToDoStatus
 }
 // ---------------------------------------
 
@@ -80,7 +83,8 @@ export class Project implements IProject { // By convention, classes always star
       this.todoList = data.todoList.map(todo => {
         return {
           ...todo,
-          date: new Date(todo.date)
+          date: new Date(todo.date),
+          status: todo.status || "pending"
         }
       })
     }
